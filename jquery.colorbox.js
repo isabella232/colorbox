@@ -636,7 +636,7 @@
 		});
 	};
 
-	publicMethod.resize = function (options) {
+	publicMethod.resize = function (options, callback) {
 		if (open) {
 			options = options || {};
 			
@@ -668,7 +668,11 @@
 			settings.h = settings.mh && settings.mh < settings.h ? settings.mh : settings.h;
 			$loaded.css({height: settings.h});
 			
-			publicMethod.position(settings.transition === "none" ? 0 : settings.speed);
+			publicMethod.position(settings.transition === "none" ? 0 : settings.speed, function(){
+				if($.isFunction(callback)){
+					callback();
+				}
+			});
 		}
 	};
 
