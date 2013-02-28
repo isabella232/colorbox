@@ -986,6 +986,7 @@
 
 	// Note: to use this within an iframe use the following format: parent.$.fn.colorbox.close();
 	publicMethod.close = function () {
+		var _complete;
 		if (open && !closing) {
 			
 			closing = true;
@@ -995,11 +996,8 @@
 			trigger(event_cleanup, settings.onCleanup);
 			
 			$window.unbind('.' + prefix + ' .' + event_ie6);
-			
-			$overlay.fadeTo(200, 0);
-			
-			$box.stop().fadeTo(300, 0, function () {
-			
+
+			_complete = function() {
 				$box.add($overlay).css({'opacity': 1, cursor: 'auto'}).hide();
 				
 				trigger(event_purge);
@@ -1010,7 +1008,15 @@
 					closing = false;
 					trigger(event_closed, settings.onClosed);
 				}, 1);
-			});
+			};
+
+			if(settings.transition === "none") {
+				$overlay.hide();
+				_complete();
+			} else {
+				$overlay.fadeTo(200, 0);
+				$box.stop().fadeTo(300, 0, _complete);
+			}
 		}
 	};
 
