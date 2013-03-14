@@ -31,6 +31,7 @@
 		opacity: 0.9,
 		preloading: true,
 		className: false,
+		trapFocus: true,
 		
 		// alternate image paths for high-res displays
 		retinaImage: false,
@@ -362,7 +363,7 @@
                 
                 // Confine focus to the modal
                 // Uses event capturing that is not supported in IE8-
-                if (document.addEventListener) {
+                if (document.addEventListener && settings.trapFocus) {
 
                     document.addEventListener('focus', trapFocus, true);
                     
